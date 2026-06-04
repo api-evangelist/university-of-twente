@@ -1,0 +1,48 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "ut": "https://www.utwente.nl/ns#",
+    "schema": "https://schema.org/",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "sameAs": "schema:sameAs",
+    "department": "schema:department",
+    "api": {
+      "@id": "ut:api",
+      "@container": "@set"
+    },
+    "humanURL": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "baseURL": {
+      "@id": "schema:url",
+      "@type": "@id"
+    }
+  },
+  "@type": "CollegeOrUniversity",
+  "name": "University of Twente",
+  "url": "https://www.utwente.nl/en/",
+  "foundingDate": "1961",
+  "description": "Public technical research university in Enschede, Netherlands, operating the Pure-based UT Research Information system at research.utwente.nl.",
+  "location": {
+    "@type": "Place",
+    "name": "Enschede, Netherlands"
+  },
+  "sameAs": [
+    "https://github.com/utwente",
+    "https://github.com/utwente-fmt",
+    "https://www.linkedin.com/school/university-of-twente/"
+  ],
+  "api": [
+    {
+      "@type": "WebAPI",
+      "name": "UT Research Information (Pure) OAI-PMH",
+      "url": "https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure",
+      "description": "OAI-PMH metadata harvesting endpoint documented for UT Research Information; no live public endpoint confirmed at time of review."
+    }
+  ]
+}
