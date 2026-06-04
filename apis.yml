@@ -1,0 +1,67 @@
+---
+aid: university-of-twente
+name: University of Twente
+description: >-
+  The University of Twente (Universiteit Twente, UT), founded in 1961 in
+  Enschede, Netherlands, is a public technical research university and ranks
+  #233 in the QS World University Rankings 2025. Its publicly confirmable
+  developer/API footprint is modest. The university runs a Pure-based research
+  information system, UT Research Information (research.utwente.nl), which is
+  documented as exposing an OAI-PMH metadata harvesting endpoint, though that
+  endpoint is not openly reachable from the public web front-end at time of
+  review. Source code from the university and its research groups is published
+  across several GitHub organizations. The University of Twente is also a
+  co-founding member of the 4TU.ResearchData repository (data.4tu.nl), which is
+  hosted and governed by TU Delft rather than operated by UT itself.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/university-of-twente/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research Data
+  - Netherlands
+  - Open Science
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: university-of-twente:pure-oai
+    name: UT Research Information (Pure) OAI-PMH
+    description: >-
+      OAI-PMH metadata harvesting endpoint documented for UT Research
+      Information, the University of Twente's Pure-based research information
+      system at research.utwente.nl. It is intended to expose research output,
+      profiles, projects and dataset metadata for harvesting by discovery and
+      aggregation services. Note: at time of review the public web front-end
+      did not serve a working OAI-PMH response (returned an error/500), so
+      access appears restricted or relocated. Listed here on documented
+      evidence only; no live endpoint was confirmed.
+    humanURL: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
+    tags: [ Research, Pure, OAI-PMH, Metadata, Harvesting ]
+    properties:
+      - type: Documentation
+        url: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
+common:
+  - type: Website
+    url: https://www.utwente.nl/en/
+  - type: GitHub
+    url: https://github.com/utwente
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/university-of-twente/
+  - type: SourceCode
+    url: https://github.com/utwente-fmt
+  - type: Plans
+    url: plans/university-of-twente-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/university-of-twente-rate-limits.yml
+  - type: FinOps
+    url: finops/university-of-twente-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

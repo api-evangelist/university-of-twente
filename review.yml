@@ -1,0 +1,48 @@
+---
+name: University of Twente
+description: University of Twente public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-twente/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      The University of Twente has a limited publicly documented API footprint.
+      The official website, the Pure research portal (research.utwente.nl), the
+      official GitHub organization, and the 4TU.ResearchData institution page
+      all resolve live (HTTP 200). UT Research Information (Pure) is documented
+      as offering an OAI-PMH harvesting endpoint, but every OAI base-URL variant
+      probed returned an error/500 or redirected to an error page, so no working
+      public OAI-PMH endpoint was confirmed; it is cataloged on documented
+      evidence only with no baseURL asserted. 4TU.ResearchData is co-founded by
+      UT but hosted and governed by TU Delft, so it is referenced rather than
+      claimed as a UT-operated API. No endpoints were fabricated.
+    endpoints:
+      - url: https://www.utwente.nl/en/
+        status: 200
+        note: Official institutional website (English).
+      - url: https://research.utwente.nl/
+        status: 200
+        note: UT Research Information (Pure) public portal, live.
+      - url: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
+        status: 200
+        note: Library documentation page describing Pure RIS and its OAI-PMH endpoint.
+      - url: https://research.utwente.nl/ws/oai?verb=Identify
+        status: 500
+        note: Pure OAI-PMH variant probed; redirected to error page, no valid OAI response.
+      - url: https://research.utwente.nl/cgi/oai2?verb=Identify
+        status: 500
+        note: Alternate OAI-PMH path probed; returned error, not openly accessible.
+      - url: https://github.com/utwente
+        status: 200
+        note: Official University of Twente GitHub organization (~8 repos).
+      - url: https://github.com/utwente-fmt
+        status: 200
+        note: UT Formal Methods and Tools GitHub org (source code).
+      - url: https://data.4tu.nl/institutions/University_of_Twente
+        status: 200
+        note: 4TU.ResearchData institution page; repository hosted/governed by TU Delft.
+      - url: https://www.linkedin.com/school/university-of-twente/
+        status: 999
+        note: Official LinkedIn school page; 999 is LinkedIn anti-bot, page exists.
