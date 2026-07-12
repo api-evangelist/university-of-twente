@@ -46,6 +46,10 @@ apis:
       - type: Documentation
         url: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
 common:
+  - type: VulnerabilityDisclosure
+    url: security/university-of-twente-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/university-of-twente-domain-security.yml
   - type: Website
     url: https://www.utwente.nl/en/
   - type: GitHub
