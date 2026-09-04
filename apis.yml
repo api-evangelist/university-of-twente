@@ -50,7 +50,7 @@ accessModel:
   - probed
   generated: '2026-09-01'
   method: probed
-position: Provider
+position: Producing
 access: Public
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/university-of-twente.png
 url: https://raw.githubusercontent.com/api-evangelist/university-of-twente/refs/heads/main/apis.yml
