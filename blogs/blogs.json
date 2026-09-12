@@ -2,14 +2,20 @@
   "repo": "university-of-twente",
   "feeds": [
     {
+      "source": "https://www.utwente.nl/en/service-portal/",
+      "feed_url": "https://www.utwente.nl/en/service-portal/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://www.utwente.nl/en/news/",
       "feed_url": "https://www.utwente.nl/en/news/",
-      "title": "University of Twente News",
+      "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-30T22:05:13Z"
+  "fetched": "2026-09-06T19:17:18Z"
 }
