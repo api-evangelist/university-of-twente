@@ -72,231 +72,285 @@ created: '2026-06-03'
 modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
-  - aid: university-of-twente:energy-api
-    name: University of Twente Energy API
-    x-operator: institution
-    description: >-
-      The university's own API, and the only contract in this profile it wrote. A public,
-      unauthenticated REST service on the university's own network (energyapi.utwente.nl,
-      130.89.3.170, ASP.NET Core / Kestrel) returning historical metered energy for 103 campus
-      resources — individual buildings such as bastille and boortoren plus the campus-wide
-      universiteit-twente roll-up — across electricity, gas, heat, water and solar, at hour, day,
-      week, month or year resolution, back to at least 2019. Setting co2=true returns the series
-      in kg CO2e against the Dutch national energy-mix emission factor. An OpenAPI 3.0.1 document
-      and a Swagger UI are published at the host. Two contract defects were measured and are
-      recorded in errors/: the spec declares RFC 7807 ProblemDetails on 400 but the service
-      returns a bespoke {error, results} envelope, and GET /api/Dashboard is documented as 200 but
-      returned 400 when probed. info.contact names Realised, the contracted developer, rather than
-      the university.
-    humanURL: https://energydata.utwente.nl/
-    baseURL: https://energyapi.utwente.nl
-    tags: [ Energy, Open Data, Sustainability, Campus, Metering, Carbon ]
-    properties:
-      - type: OpenAPI
-        url: openapi/university-of-twente-energy-api-openapi.yml
-      - type: OpenAPIOriginal
-        url: openapi/_original/university-of-twente-energy-api-openapi.json
-      - type: APIReference
-        url: https://energyapi.utwente.nl/
-      - type: Documentation
-        url: https://www.utwente.nl/en/sustainability/sustainability-on-campus/resources/open-data/
-      - type: JSONSchema
-        url: json-schema/energy.json
-      - type: Examples
-        url: examples/university-of-twente-energy-series-example.json
-      - type: Rules
-        url: rules/university-of-twente-openapi-spectral-rules.yml
-      - type: Vocabulary
-        url: vocabulary/university-of-twente-vocabulary.yml
-      - type: Authentication
-        url: authentication/university-of-twente-authentication.yml
-      - type: Scopes
-        url: scopes/university-of-twente-scopes.yml
-      - type: Errors
-        url: errors/university-of-twente-problem-types.yml
-      - type: Lifecycle
-        url: lifecycle/university-of-twente-lifecycle.yml
-      - type: Conformance
-        url: conformance/university-of-twente-conformance.yml
-  - aid: university-of-twente:saml-idp-surfconext
-    name: University of Twente SAML 2.0 Identity Provider (SURFconext)
-    x-operator: federation
-    description: >-
-      The university's own SAML 2.0 identity provider, entityID
-      https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/, running on a Microsoft Entra
-      ID tenant in the EU region and registered in SURFconext, the Dutch national research and
-      education federation and an eduGAIN participant. The SURFconext IdP aggregate carries its
-      EntityDescriptor with mdui:DisplayName "University of Twente" and the Shibboleth metadata
-      extension shibmd:Scope regexp="false" utwente.nl, which is the federation asserting this IdP
-      is authoritative for the utwente.nl scope. The tenant publishes its own SAML metadata and an
-      OpenID Connect discovery document, both unauthenticated. A federation is shared by
-      definition; the IdP behind it is the institution's, and this is the surface every gated UT
-      service sits behind. The same tenant GUID appears independently in the canvas.utwente.nl
-      login redirect and in the ctid of the Power BI report embedded on the university's own
-      open-data page.
-    humanURL: https://metadata.surfconext.nl/idps-metadata.xml
-    baseURL: https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/
-    tags: [ Identity, Federation, SAML, Shibboleth, SURFconext, eduGAIN, SSO ]
-    properties:
-      - type: IdentityFederation
-        url: https://metadata.surfconext.nl/idps-metadata.xml
-      - type: Metadata
-        url: https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/federationmetadata/2007-06/federationmetadata.xml
-      - type: OpenIDConnectDiscovery
-        url: https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/v2.0/.well-known/openid-configuration
-      - type: Conformance
-        url: conformance/university-of-twente-conformance.yml
-  - aid: university-of-twente:ewp-mobility-node
-    name: University of Twente Erasmus Without Paper Node
-    x-operator: tenant
-    description: >-
-      A live Erasmus Without Paper discovery manifest served on a University of Twente hostname,
-      declaring fifteen EWP APIs with every endpoint URL scoped to the HEI ID utwente.nl —
-      institutions, organizational-units, iias, iia-cnr, iias-approval, iia-approval-cnr,
-      omobilities, omobility-stats, omobility-cnr, omobility-las, omobility-la-cnr, imobilities,
-      imobility-cnr, factsheet and discovery itself. EWP is the European Commission-backed
-      machine-to-machine network for Erasmus+ student mobility. By operation count this is the
-      university's largest declared API surface. It is recorded as tenant rather than institution
-      because the platform is SOP's Mobility-Online (the manifest's admin contact is
-      ewp@sop.co.at, the host resolves to 77.237.55.133 outside UT address space) and the API
-      contracts are the EWP consortium's shared specifications — the deployment and the data are
-      the university's, the engineering is not.
-    humanURL: https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all
-    baseURL: https://mobility-online.utwente.nl/mobility/ewp/
-    tags: [ Student Mobility, Erasmus, EWP, Interoperability, Europe ]
-    properties:
-      - type: Manifest
-        url: https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all
-      - type: Specification
-        url: https://github.com/erasmus-without-paper/ewp-specs-api-discovery
-  - aid: university-of-twente:crossref-membership
-    name: University of Twente Library Crossref Membership
-    x-operator: registry
-    description: >-
-      The University Library registers DOIs with Crossref in the university's own name. Crossref
-      member 2372, "University Library/University of Twente", located AE Enschede, Netherlands,
-      holding DOI prefix 10.3990 with 599 member DOIs (23 current, 576 backfile) and 5,393 works
-      resolvable under the prefix. This is an institution-operated identifier surface and a fact
-      about the university, not a contract it publishes — the Crossref REST API belongs to
-      Crossref. The university is also registered in ROR as https://ror.org/006hf6230 with domain
-      utwente.nl and established date 1961. It is deliberately NOT recorded as a DataCite member:
-      api.datacite.org returns zero clients and zero providers for the university, and its
-      research-data DOIs are minted under prefix 10.4121 by 4TU.ResearchData, which TU Delft
-      operates.
-    humanURL: https://api.crossref.org/members/2372
-    tags: [ DOI, Crossref, ROR, Identifiers, Registry, Scholarly Publishing ]
-    properties:
-      - type: Registry
-        url: https://api.crossref.org/members/2372
-      - type: ROR
-        url: https://ror.org/006hf6230
-      - type: Conformance
-        url: conformance/university-of-twente-conformance.yml
-  - aid: university-of-twente:pure-research-information
-    name: UT Research Information (Elsevier Pure)
-    x-operator: tenant
-    description: >-
-      The university's research information system and publication repository, at
-      research.utwente.nl with the back-office at ris.utwente.nl and persistent-URL resolvers at
-      purl.utwente.nl and doc.utwente.nl. All of them are Elsevier Pure: research.utwente.nl and
-      ris.utwente.nl both CNAME to utwente-pva.elsevierpure.com via eu.prod.elsevierpure.com. The
-      research output, the profiles and the projects are the university's; the contract is
-      Elsevier's, so no Pure specification is saved under this slug. CORRECTION, 2026-09-01: this
-      repo previously carried this surface as a documented OAI-PMH harvesting endpoint. Every OAI
-      base-URL variant was re-probed and none responds — /ws/oai?verb=Identify returns 500,
-      /ws/oai/?verb=Identify returns 404, /oai?verb=Identify returns 500 — and the library page
-      formerly cited as documenting it no longer mentions OAI-PMH. The relationship is kept; the
-      unsupported endpoint claim is not. Pure person pages return 403 to non-browser clients.
-    humanURL: https://research.utwente.nl/
-    tags: [ Research Information, Pure, Elsevier, Repository, Publications, CRIS ]
-    properties:
-      - type: ResearchRepository
-        url: https://research.utwente.nl/
-      - type: Documentation
-        url: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
-  - aid: university-of-twente:canvas-lms
-    name: University of Twente Canvas LMS Tenant
-    x-operator: tenant
-    description: >-
-      The university's learning management system, canvas.utwente.nl, a CNAME to
-      utwente-vanity.instructure.com. Its LTI 1.3 platform JWKS at /api/lti/security/jwks is
-      public and returns three RS256 signing keys, which is live evidence of IMS Global Learning
-      Tools Interoperability conformance on a University of Twente hostname. The Canvas REST API
-      at /api/v1/* returns 401 without a token and is not open to the public. Authentication
-      redirects to the university's own Entra ID tenant, tying this surface to the SAML IdP
-      recorded above. The courses and the enrolments are the university's; the API contract is
-      Instructure's.
-    humanURL: https://canvas.utwente.nl/
-    tags: [ LMS, Canvas, Instructure, LTI, Teaching, Learning ]
-    properties:
-      - type: LearningManagement
-        url: https://canvas.utwente.nl/
-      - type: JWKS
-        url: https://canvas.utwente.nl/api/lti/security/jwks
-      - type: PrivacyPolicy
-        url: https://www.utwente.nl/en/educational-systems/student-applications/canvas/policies/privacy-statement/
-  - aid: university-of-twente:osiris-student-information
-    name: University of Twente OSIRIS Student Information System
-    x-operator: tenant
-    description: >-
-      The registrar and course-registration system. osiris.utwente.nl redirects to
-      utwente.osiris-student.nl, an institution-specific subdomain on CACI's OSIRIS platform
-      (213.206.219.219). This is where the authoritative course catalog, timetable and enrolment
-      data live, and none of it is exposed through a public API — the surface is a
-      login-gated single-page application. Recorded as a tenant relationship because the course
-      catalog is one of the surface classes a university genuinely operates, and its absence from
-      the public web is the finding.
-    humanURL: https://www.utwente.nl/en/educational-systems/student-applications/osiris/
-    tags: [ Student Information System, OSIRIS, Course Catalog, Registrar, Enrolment ]
-    properties:
-      - type: CourseCatalog
-        url: https://utwente.osiris-student.nl/
-      - type: Documentation
-        url: https://www.utwente.nl/en/educational-systems/student-applications/osiris/
-  - aid: university-of-twente:4tu-researchdata
-    name: University of Twente collections in 4TU.ResearchData
-    x-operator: tenant
-    description: >-
-      4TU.ResearchData is the research-data repository the University of Twente co-founded, hosted
-      and governed by TU Delft on the open-source djehuty platform at data.4tu.nl. The university
-      holds two named scopes in it, evidenced from the repository's own group listing at
-      /v3/groups: group 28592 "University of Twente" (association utwente.nl) and group 28634
-      "University of Twente Students" (association student.utwente.nl), both flagged featured, and
-      a public institution landing page. The datasets and their 10.4121 DOIs are the university's;
-      the repository and its API are 4TU's, so no 4TU or Figshare contract is saved under this
-      slug. Note for anyone re-probing: the public API's group filter does not scope results —
-      /v3/datasets?group=28592 returns records from other groups — so dataset counts per
-      institution cannot be taken from that endpoint.
-    humanURL: https://data.4tu.nl/institutions/University_of_Twente
-    tags: [ Research Data, Repository, 4TU, Datasets, Open Science, DOI ]
-    properties:
-      - type: ResearchRepository
-        url: https://data.4tu.nl/institutions/University_of_Twente
-      - type: Registry
-        url: https://data.4tu.nl/v3/groups
-  - aid: university-of-twente:llms-txt
-    name: University of Twente llms.txt Programme Catalog
-    x-operator: institution
-    description: >-
-      A machine-readable study-programme document the university serves from its own web root at
-      www.utwente.nl/llms.txt, addressed explicitly at language models. It carries organisation
-      identity, English and Dutch site URLs, and a programmes object covering bachelor, master and
-      lifelong-learning offerings with degree, URL, duration, language of instruction, target
-      group and mode per entry, plus a meta block with contact study@utwente.nl. Served as
-      text/plain, 3,049 bytes, last modified 2026-07-21, with an internal last_updated of
-      2025-10-20. Two defects are recorded rather than smoothed over: despite being JSON-shaped it
-      is NOT valid JSON — it contains JavaScript block comments — and the bachelor and master
-      arrays are elided to those comments rather than populated, so only the three
-      lifelong-learning entries actually carry data. It is nonetheless a genuine institution-
-      operated agent-facing surface, which very few universities in this cohort publish at all.
-    humanURL: https://www.utwente.nl/llms.txt
-    baseURL: https://www.utwente.nl/llms.txt
-    tags: [ llms.txt, Agent Readiness, Course Catalog, Programmes, Machine Readable ]
-    properties:
-      - type: CourseCatalog
-        url: https://www.utwente.nl/llms.txt
-      - type: Website
-        url: https://www.utwente.nl/en/education/
+- aid: university-of-twente:energy-api
+  name: University of Twente Energy API
+  x-operator: institution
+  description: >-
+    The university's own API, and the only contract in this profile it wrote. A public, unauthenticated
+    REST service on the university's own network (energyapi.utwente.nl, 130.89.3.170, ASP.NET Core / Kestrel)
+    returning historical metered energy for 103 campus resources — individual buildings such as bastille
+    and boortoren plus the campus-wide universiteit-twente roll-up — across electricity, gas, heat, water
+    and solar, at hour, day, week, month or year resolution, back to at least 2019. Setting co2=true returns
+    the series in kg CO2e against the Dutch national energy-mix emission factor. An OpenAPI 3.0.1 document
+    and a Swagger UI are published at the host. Two contract defects were measured and are recorded in
+    errors/: the spec declares RFC 7807 ProblemDetails on 400 but the service returns a bespoke {error,
+    results} envelope, and GET /api/Dashboard is documented as 200 but returned 400 when probed. info.contact
+    names Realised, the contracted developer, rather than the university.
+  humanURL: https://energydata.utwente.nl/
+  baseURL: https://energyapi.utwente.nl
+  tags:
+  - Energy
+  - Open Data
+  - Sustainability
+  - Campus
+  - Metering
+  - Carbon
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-twente-energy-api-openapi.yml
+  - type: OpenAPIOriginal
+    url: openapi/_original/university-of-twente-energy-api-openapi.json
+  - type: APIReference
+    url: https://energyapi.utwente.nl/
+  - type: Documentation
+    url: https://www.utwente.nl/en/sustainability/sustainability-on-campus/resources/open-data/
+  - type: JSONSchema
+    url: json-schema/energy.json
+  - type: Examples
+    url: examples/university-of-twente-energy-series-example.json
+  - type: Rules
+    url: rules/university-of-twente-openapi-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/university-of-twente-vocabulary.yml
+  - type: Authentication
+    url: authentication/university-of-twente-authentication.yml
+  - type: Scopes
+    url: scopes/university-of-twente-scopes.yml
+  - type: Errors
+    url: errors/university-of-twente-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/university-of-twente-lifecycle.yml
+  - type: Conformance
+    url: conformance/university-of-twente-conformance.yml
+- aid: university-of-twente:saml-idp-surfconext
+  name: University of Twente SAML 2.0 Identity Provider (SURFconext)
+  x-operator: federation
+  description: >-
+    The university's own SAML 2.0 identity provider, entityID https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/,
+    running on a Microsoft Entra ID tenant in the EU region and registered in SURFconext, the Dutch national
+    research and education federation and an eduGAIN participant. The SURFconext IdP aggregate carries
+    its EntityDescriptor with mdui:DisplayName "University of Twente" and the Shibboleth metadata extension
+    shibmd:Scope regexp="false" utwente.nl, which is the federation asserting this IdP is authoritative
+    for the utwente.nl scope. The tenant publishes its own SAML metadata and an OpenID Connect discovery
+    document, both unauthenticated. A federation is shared by definition; the IdP behind it is the institution's,
+    and this is the surface every gated UT service sits behind. The same tenant GUID appears independently
+    in the canvas.utwente.nl login redirect and in the ctid of the Power BI report embedded on the university's
+    own open-data page.
+  humanURL: https://metadata.surfconext.nl/idps-metadata.xml
+  baseURL: https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/
+  tags:
+  - Identity
+  - Federation
+  - SAML
+  - Shibboleth
+  - SURFconext
+  - eduGAIN
+  - SSO
+  properties:
+  - type: IdentityFederation
+    url: https://metadata.surfconext.nl/idps-metadata.xml
+  - type: Metadata
+    url: >-
+      https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/federationmetadata/2007-06/federationmetadata.xml
+  - type: OpenIDConnectDiscovery
+    url: >-
+      https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/v2.0/.well-known/openid-configuration
+  - type: Conformance
+    url: conformance/university-of-twente-conformance.yml
+- aid: university-of-twente:ewp-mobility-node
+  name: University of Twente Erasmus Without Paper Node
+  x-operator: tenant
+  description: >-
+    A live Erasmus Without Paper discovery manifest served on a University of Twente hostname, declaring
+    fifteen EWP APIs with every endpoint URL scoped to the HEI ID utwente.nl — institutions, organizational-units,
+    iias, iia-cnr, iias-approval, iia-approval-cnr, omobilities, omobility-stats, omobility-cnr, omobility-las,
+    omobility-la-cnr, imobilities, imobility-cnr, factsheet and discovery itself. EWP is the European
+    Commission-backed machine-to-machine network for Erasmus+ student mobility. By operation count this
+    is the university's largest declared API surface. It is recorded as tenant rather than institution
+    because the platform is SOP's Mobility-Online (the manifest's admin contact is ewp@sop.co.at, the
+    host resolves to 77.237.55.133 outside UT address space) and the API contracts are the EWP consortium's
+    shared specifications — the deployment and the data are the university's, the engineering is not.
+  humanURL: https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all
+  baseURL: https://mobility-online.utwente.nl/mobility/ewp/
+  tags:
+  - Student Mobility
+  - Erasmus
+  - EWP
+  - Interoperability
+  - Europe
+  properties:
+  - type: Manifest
+    url: https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all
+  - type: Specification
+    url: https://github.com/erasmus-without-paper/ewp-specs-api-discovery
+- aid: university-of-twente:crossref-membership
+  name: University of Twente Library Crossref Membership
+  x-operator: registry
+  description: >-
+    The University Library registers DOIs with Crossref in the university's own name. Crossref member
+    2372, "University Library/University of Twente", located AE Enschede, Netherlands, holding DOI prefix
+    10.3990 with 599 member DOIs (23 current, 576 backfile) and 5,393 works resolvable under the prefix.
+    This is an institution-operated identifier surface and a fact about the university, not a contract
+    it publishes — the Crossref REST API belongs to Crossref. The university is also registered in ROR
+    as https://ror.org/006hf6230 with domain utwente.nl and established date 1961. It is deliberately
+    NOT recorded as a DataCite member: api.datacite.org returns zero clients and zero providers for the
+    university, and its research-data DOIs are minted under prefix 10.4121 by 4TU.ResearchData, which
+    TU Delft operates.
+  humanURL: https://api.crossref.org/members/2372
+  tags:
+  - DOI
+  - Crossref
+  - ROR
+  - Identifiers
+  - Registry
+  - Scholarly Publishing
+  properties:
+  - type: Registry
+    url: https://api.crossref.org/members/2372
+  - type: ROR
+    url: https://ror.org/006hf6230
+  - type: Conformance
+    url: conformance/university-of-twente-conformance.yml
+- aid: university-of-twente:pure-research-information
+  name: UT Research Information (Elsevier Pure)
+  x-operator: tenant
+  description: >-
+    The university's research information system and publication repository, at research.utwente.nl with
+    the back-office at ris.utwente.nl and persistent-URL resolvers at purl.utwente.nl and doc.utwente.nl.
+    All of them are Elsevier Pure: research.utwente.nl and ris.utwente.nl both CNAME to utwente-pva.elsevierpure.com
+    via eu.prod.elsevierpure.com. The research output, the profiles and the projects are the university's;
+    the contract is Elsevier's, so no Pure specification is saved under this slug. CORRECTION, 2026-09-01:
+    this repo previously carried this surface as a documented OAI-PMH harvesting endpoint. Every OAI base-URL
+    variant was re-probed and none responds — /ws/oai?verb=Identify returns 500, /ws/oai/?verb=Identify
+    returns 404, /oai?verb=Identify returns 500 — and the library page formerly cited as documenting it
+    no longer mentions OAI-PMH. The relationship is kept; the unsupported endpoint claim is not. Pure
+    person pages return 403 to non-browser clients.
+  humanURL: https://research.utwente.nl/
+  tags:
+  - Research Information
+  - Pure
+  - Elsevier
+  - Repository
+  - Publications
+  - CRIS
+  properties:
+  - type: ResearchRepository
+    url: https://research.utwente.nl/
+  - type: Documentation
+    url: >-
+      https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
+- aid: university-of-twente:canvas-lms
+  name: University of Twente Canvas LMS Tenant
+  x-operator: tenant
+  description: >-
+    The university's learning management system, canvas.utwente.nl, a CNAME to utwente-vanity.instructure.com.
+    Its LTI 1.3 platform JWKS at /api/lti/security/jwks is public and returns three RS256 signing keys,
+    which is live evidence of IMS Global Learning Tools Interoperability conformance on a University of
+    Twente hostname. The Canvas REST API at /api/v1/* returns 401 without a token and is not open to the
+    public. Authentication redirects to the university's own Entra ID tenant, tying this surface to the
+    SAML IdP recorded above. The courses and the enrolments are the university's; the API contract is
+    Instructure's.
+  humanURL: https://canvas.utwente.nl/
+  tags:
+  - LMS
+  - Canvas
+  - Instructure
+  - LTI
+  - Teaching
+  - Learning
+  properties:
+  - type: LearningManagement
+    url: https://canvas.utwente.nl/
+  - type: JWKS
+    url: https://canvas.utwente.nl/api/lti/security/jwks
+  - type: PrivacyPolicy
+    url: >-
+      https://www.utwente.nl/en/educational-systems/student-applications/canvas/policies/privacy-statement/
+- aid: university-of-twente:osiris-student-information
+  name: University of Twente OSIRIS Student Information System
+  x-operator: tenant
+  description: >-
+    The registrar and course-registration system. osiris.utwente.nl redirects to utwente.osiris-student.nl,
+    an institution-specific subdomain on CACI's OSIRIS platform (213.206.219.219). This is where the authoritative
+    course catalog, timetable and enrolment data live, and none of it is exposed through a public API
+    — the surface is a login-gated single-page application. Recorded as a tenant relationship because
+    the course catalog is one of the surface classes a university genuinely operates, and its absence
+    from the public web is the finding.
+  humanURL: https://www.utwente.nl/en/educational-systems/student-applications/osiris/
+  tags:
+  - Student Information System
+  - OSIRIS
+  - Course Catalog
+  - Registrar
+  - Enrolment
+  properties:
+  - type: CourseCatalog
+    url: https://utwente.osiris-student.nl/
+  - type: Documentation
+    url: https://www.utwente.nl/en/educational-systems/student-applications/osiris/
+- aid: university-of-twente:4tu-researchdata
+  name: University of Twente collections in 4TU.ResearchData
+  x-operator: tenant
+  description: >-
+    4TU.ResearchData is the research-data repository the University of Twente co-founded, hosted and governed
+    by TU Delft on the open-source djehuty platform at data.4tu.nl. The university holds two named scopes
+    in it, evidenced from the repository's own group listing at /v3/groups: group 28592 "University of
+    Twente" (association utwente.nl) and group 28634 "University of Twente Students" (association student.utwente.nl),
+    both flagged featured, and a public institution landing page. The datasets and their 10.4121 DOIs
+    are the university's; the repository and its API are 4TU's, so no 4TU or Figshare contract is saved
+    under this slug. Note for anyone re-probing: the public API's group filter does not scope results
+    — /v3/datasets?group=28592 returns records from other groups — so dataset counts per institution cannot
+    be taken from that endpoint.
+  humanURL: https://data.4tu.nl/institutions/University_of_Twente
+  tags:
+  - Research Data
+  - Repository
+  - 4TU
+  - Datasets
+  - Open Science
+  - DOI
+  properties:
+  - type: ResearchRepository
+    url: https://data.4tu.nl/institutions/University_of_Twente
+  - type: Registry
+    url: https://data.4tu.nl/v3/groups
+- aid: university-of-twente:llms-txt
+  name: University of Twente llms.txt Programme Catalog
+  x-operator: institution
+  description: >-
+    A machine-readable study-programme document the university serves from its own web root at www.utwente.nl/llms.txt,
+    addressed explicitly at language models. It carries organisation identity, English and Dutch site
+    URLs, and a programmes object covering bachelor, master and lifelong-learning offerings with degree,
+    URL, duration, language of instruction, target group and mode per entry, plus a meta block with contact
+    study@utwente.nl. Served as text/plain, 3,049 bytes, last modified 2026-07-21, with an internal last_updated
+    of 2025-10-20. Two defects are recorded rather than smoothed over: despite being JSON-shaped it is
+    NOT valid JSON — it contains JavaScript block comments — and the bachelor and master arrays are elided
+    to those comments rather than populated, so only the three lifelong-learning entries actually carry
+    data. It is nonetheless a genuine institution- operated agent-facing surface, which very few universities
+    in this cohort publish at all.
+  humanURL: https://www.utwente.nl/llms.txt
+  baseURL: https://www.utwente.nl/llms.txt
+  tags:
+  - llms.txt
+  - Agent Readiness
+  - Course Catalog
+  - Programmes
+  - Machine Readable
+  properties:
+  - type: CourseCatalog
+    url: https://www.utwente.nl/llms.txt
+  - type: Website
+    url: https://www.utwente.nl/en/education/
+- aid: university-of-twente:university-of-twente-dashboard-api
+  name: University of Twente Dashboard API
+  description: The Dashboard API from University of Twente — 1 operation(s) for dashboard.
+  humanURL: https://energydata.utwente.nl/
+  baseURL: https://energyapi.utwente.nl
+  tags:
+  - Dashboard
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-twente-dashboard-api-openapi.yml
 common:
   - type: Website
     url: https://www.utwente.nl/en/
