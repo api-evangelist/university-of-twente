@@ -232,6 +232,13 @@ apis:
   - Elsevier
   - Repository
   - Publications
+  - CRI
+  tags_raw:
+  - Research Information
+  - Pure
+  - Elsevier
+  - Repository
+  - Publications
   - CRIS
   properties:
   - type: ResearchRepository
@@ -331,6 +338,12 @@ apis:
   humanURL: https://www.utwente.nl/llms.txt
   baseURL: https://www.utwente.nl/llms.txt
   tags:
+  - llms-txt
+  - Agent Readiness
+  - Course Catalog
+  - Programmes
+  - Machine-Readable
+  tags_raw:
   - llms.txt
   - Agent Readiness
   - Course Catalog
@@ -347,6 +360,8 @@ apis:
   humanURL: https://energydata.utwente.nl/
   baseURL: https://energyapi.utwente.nl
   tags:
+  - Dashboards
+  tags_raw:
   - Dashboard
   properties:
   - type: OpenAPI
