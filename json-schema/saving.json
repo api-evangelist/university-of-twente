@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/saving.json",
+  "title": "Saving",
+  "description": "Year-over-year savings percentages per energy type, as declared by the Saving component in the source spec.",
+  "type": "object",
+  "properties": {
+    "electricity": {
+      "type": "number",
+      "format": "double"
+    },
+    "gas": {
+      "type": "number",
+      "format": "double"
+    },
+    "heat": {
+      "type": "number",
+      "format": "double"
+    },
+    "water": {
+      "type": "number",
+      "format": "double"
+    },
+    "cold": {
+      "type": "number",
+      "format": "double"
+    }
+  },
+  "additionalProperties": false,
+  "x-generated": "2026-09-01",
+  "x-method": "derived",
+  "x-source": "openapi/_original/university-of-twente-energy-api-openapi.json",
+  "x-operator": "institution"
+}

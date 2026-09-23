@@ -1,0 +1,34 @@
+{
+  "operationId": "getDashboard",
+  "method": "GET",
+  "path": "/api/Dashboard",
+  "summary": "University of Twente campus dashboard aggregates",
+  "generated": "2026-09-01",
+  "method_provenance": "probed",
+  "source": "https://energyapi.utwente.nl",
+  "x-operator": "institution",
+  "requestExamples": [
+    {
+      "name": "dashboard",
+      "url": "https://energyapi.utwente.nl/api/Dashboard",
+      "headers": {},
+      "body": null
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "400",
+      "contentType": "application/json",
+      "name": "observed-2026-09-01",
+      "probedAt": "2026-09-01",
+      "note": "Documented to return 200 with a Dashboard object. On 2026-09-01 the live endpoint returned 400 with an operator-facing error string. Recorded as probed, not as documented; no 200 example is fabricated.",
+      "example": {
+        "error": "Something unexpected happened, please blame the terrible developers at energyapi@realised.nl",
+        "results": {
+          "unit": null,
+          "data": []
+        }
+      }
+    }
+  ]
+}

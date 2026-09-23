@@ -1,0 +1,51 @@
+generated: '2026-09-01'
+method: probed
+source: openapi/_original/university-of-twente-energy-api-openapi.json
+x-operator: institution
+summary:
+  types: []
+  api_key_in: []
+  oauth2_flows: []
+  note: >-
+    The University of Twente Energy API is fully public. The harvested OpenAPI declares no
+    components.securitySchemes and no top-level or per-operation security requirement, and a
+    live unauthenticated GET to https://energyapi.utwente.nl/api/Energy returned 200 with real
+    campus data on 2026-09-01. There is no key to request, no registration, no account and no
+    quota gate. Absence of authentication here is a deliberate open-data posture, not an
+    omission: the university's own open-data page states the platform "opens all energy-related
+    data up to the public".
+schemes: []
+observed:
+- surface: https://energyapi.utwente.nl/api/Energy
+  probed: '2026-09-01'
+  status: 200
+  credential_sent: none
+  result: 200 with the full 103-resource list; no WWW-Authenticate, no 401, no 403.
+- surface: https://energyapi.utwente.nl/api/Energy/universiteit-twente/electricity
+  probed: '2026-09-01'
+  status: 200
+  credential_sent: none
+  result: 200 with metered kWh series; no credential required.
+institutional_authentication_elsewhere:
+  note: >-
+    Authentication at the University of Twente is not absent — it is simply not on the open data
+    API. The university operates its own SAML 2.0 identity provider, federated through SURFconext,
+    and every gated institutional surface sits behind it. This is recorded as a federation surface
+    in apis.yml, not as an authentication scheme of the Energy API.
+  identity_provider:
+    protocol: SAML 2.0
+    entity_id: https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/
+    platform: Microsoft Entra ID (tenant region EU)
+    shibboleth_scope: utwente.nl
+    federation: SURFconext (Dutch national research and education federation)
+    federation_metadata: https://metadata.surfconext.nl/idps-metadata.xml
+    tenant_metadata: https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/federationmetadata/2007-06/federationmetadata.xml
+    oidc_discovery: https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/v2.0/.well-known/openid-configuration
+    oidc_scopes_supported: [ openid, profile, email, offline_access ]
+    probed: '2026-09-01'
+    evidence: >-
+      The SURFconext IdP metadata aggregate carries an EntityDescriptor for this entityID with
+      mdui:DisplayName "University of Twente" / "Universiteit Twente", md:OrganizationURL
+      http://www.utwente.nl/ and shibmd:Scope regexp="false" utwente.nl. The same tenant GUID
+      appears independently in the canvas.utwente.nl login redirect and in the ctid parameter of
+      the Power BI report embedded on the university's own open-data page.

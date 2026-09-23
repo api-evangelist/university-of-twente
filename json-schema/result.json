@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/result.json",
+  "title": "Result",
+  "description": "A unit-tagged series of data points.",
+  "type": "object",
+  "required": [
+    "unit",
+    "data"
+  ],
+  "properties": {
+    "unit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Unit of every value in data \u2014 e.g. kWh, m3, GJ, or 'kg CO\u2082e' when co2=true."
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/data-point.json"
+      },
+      "description": "Ordered series of metered values."
+    }
+  },
+  "additionalProperties": false,
+  "x-generated": "2026-09-01",
+  "x-method": "derived",
+  "x-source": "openapi/_original/university-of-twente-energy-api-openapi.json",
+  "x-operator": "institution"
+}

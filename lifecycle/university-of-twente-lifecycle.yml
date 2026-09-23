@@ -1,0 +1,58 @@
+generated: '2026-09-01'
+method: probed
+source: openapi/_original/university-of-twente-energy-api-openapi.json
+x-operator: institution
+docs: https://www.utwente.nl/en/sustainability/sustainability-on-campus/resources/open-data/
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_version: v1
+  base: https://energyapi.utwente.nl
+  spec_url: https://energyapi.utwente.nl/swagger/v1/swagger.json
+  detail: >-
+    info.version is the literal string "v1" and the Swagger document is served under a /swagger/v1/
+    path, so the version lives in the spec route rather than in the API route — data paths are
+    /api/Energy and /api/Dashboard with no version segment. There is one version and no evidence of
+    a second having existed. No changelog, no release notes and no dated revision history were found
+    on any University of Twente host.
+  stability_marking: >-
+    None. No endpoint, parameter or field carries a beta, preview, experimental or deprecated
+    marker anywhere in the contract.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No deprecation policy, no RFC 8594 Sunset or Deprecation headers observed on any response, and
+    no in-band deprecation notice in the spec. Nothing in the contract is marked deprecated, so
+    there is currently nothing to deprecate — but there is also no published commitment about what
+    happens when there is.
+  observed_deprecations: []
+support:
+  channel: email
+  contact: energydata@realised.nl
+  contact_role: >-
+    Named in info.contact as Realised, the agency contracted to build the platform — not a
+    university address. The university's own stated contact for the Energy Data Platform is
+    sustainability@utwente.nl, published on its open-data page but absent from the contract.
+  detail: >-
+    An API consumer reading only the spec is routed to the contractor. This is the single cheapest
+    contract fix available to the university.
+  status_page: null
+  changelog: null
+availability:
+  probed: '2026-09-01'
+  observations:
+  - endpoint: GET /api/Energy
+    status: 200
+  - endpoint: GET /api/Energy/{resource}/{type}
+    status: 200
+  - endpoint: GET /api/Dashboard
+    status: 400
+  server: Kestrel (ASP.NET Core)
+  host_network: 130.89.3.170 — University of Twente address space
+  data_coverage: >-
+    Series requests succeed back to at least 2019 (the spec's own sample request uses 2019-01-01)
+    and return values for 2025, so the archive spans several years at hour/day/week/month/year
+    resolution across 103 campus resources.

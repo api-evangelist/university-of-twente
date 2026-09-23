@@ -1,0 +1,107 @@
+openapi: 3.2.0
+info:
+  title: University of Twente Energy Dashboard API
+  description: 'API for querying historical energy data from University of Twente buildings.
+
+
+    Developed by Realised, for questions please contact:'
+  contact:
+    name: Realised
+    email: energydata@realised.nl
+  version: v1
+tags:
+- name: Dashboard
+paths:
+  /api/Dashboard:
+    get:
+      tags:
+      - Dashboard
+      summary: Returns the relevant dashboard data containing year of year savings (in %) and…
+      responses:
+        '200':
+          description: Returns no error and dashboard data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+        '400':
+          description: If the database returns an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '503':
+          description: If the database can't be reached.
+      operationId: getApiDashboard
+      x-operation-id-source: derived
+components:
+  schemas:
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    Measure:
+      type: object
+      properties:
+        dayGeneration:
+          type: number
+          format: double
+        weekGeneration:
+          type: number
+          format: double
+        yearGeneration:
+          type: number
+          format: double
+      additionalProperties: false
+    Dashboard:
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        savings:
+          $ref: '#/components/schemas/Saving'
+        solar:
+          $ref: '#/components/schemas/Measure'
+      additionalProperties: false
+    Saving:
+      type: object
+      properties:
+        electricity:
+          type: number
+          format: double
+        gas:
+          type: number
+          format: double
+        water:
+          type: number
+          format: double
+        heat:
+          type: number
+          format: double
+        cold:
+          type: number
+          format: double
+      additionalProperties: false

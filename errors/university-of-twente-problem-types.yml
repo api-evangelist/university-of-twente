@@ -1,0 +1,68 @@
+generated: '2026-09-01'
+method: probed
+source: openapi/_original/university-of-twente-energy-api-openapi.json
+x-operator: institution
+docs: https://energyapi.utwente.nl/
+format: bespoke-envelope
+rfc9457: false
+rfc7807: false
+note: >-
+  There is a documented/deployed mismatch here and it is recorded as observed, not as documented.
+  The harvested OpenAPI declares the 400 response of both /api/Energy/{resource}/{type} and
+  /api/Dashboard as components/schemas/ProblemDetails — the ASP.NET Core RFC 7807 shape with
+  type/title/status/detail/instance. The service does not return that. Every observed error, at
+  every status, returns the same bespoke success envelope with the message moved into `error` and
+  `results` emptied. A client written against the published contract will look for `title` and
+  `detail` and find neither. ProblemDetails is present in components but is not what ships.
+envelope:
+  content_type: application/json
+  schema: json-schema/energy.json
+  documented_schema: ProblemDetails
+  documented_but_not_deployed: true
+  example:
+    error: 'Timestamp not provided in ISO8601 format: yyyy-MM-ddTHH:mm:ssZ'
+    results:
+      unit: null
+      data: []
+status_codes:
+- status: 200
+  meaning: Success. `error` is null and `results` carries the series or the resource list.
+  retryable: false
+  observed: true
+- status: 400
+  meaning: >-
+    Input rejected — malformed timestamp, unparseable resolution, or unknown resource/type pair.
+    Also returned by /api/Dashboard as deployed, where the spec documents 200.
+  retryable: false
+  observed: true
+  observed_messages:
+  - 'Timestamp not provided in ISO8601 format: yyyy-MM-ddTHH:mm:ssZ'
+  - 'Something unexpected happened, please blame the terrible developers at energyapi@realised.nl'
+- status: 405
+  meaning: "Wrong method. A HEAD/POST against /api/Energy returns 405 with an `Allow: GET` header."
+  retryable: false
+  observed: true
+- status: 503
+  meaning: Declared in the spec for all three operations, for when the metering database is unreachable.
+  retryable: true
+  observed: false
+findings:
+- id: problemdetails-declared-not-deployed
+  severity: medium
+  detail: >-
+    Both operations declare application/json ProblemDetails on 400; the deployed 400 body is the
+    {error, results} envelope. Either the spec should describe the real envelope or the service
+    should emit ProblemDetails.
+  evidence: 'GET /api/Energy/universiteit-twente/electricity?resolution=bogus&from=x&to=y -> 400, body {"error":"Timestamp not provided in ISO8601 format: yyyy-MM-ddTHH:mm:ssZ","results":{"unit":null,"data":[]}} (probed 2026-09-01)'
+- id: dashboard-400-where-200-documented
+  severity: medium
+  detail: >-
+    GET /api/Dashboard is documented to return 200 with savings and solar generation. On
+    2026-09-01 it returned 400 with an internal-facing message naming the contracted developer's
+    mailbox. No 200 example for this operation could be captured, so none was written.
+  evidence: 'GET https://energyapi.utwente.nl/api/Dashboard -> 400 (probed 2026-09-01)'
+- id: internal-error-message-leaks-vendor-mailbox
+  severity: low
+  detail: >-
+    The Dashboard failure body returns a developer-facing joke string containing
+    energyapi@realised.nl. Harmless, but it is an internal message reaching public callers.

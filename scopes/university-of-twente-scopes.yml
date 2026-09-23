@@ -1,0 +1,20 @@
+generated: '2026-09-01'
+method: probed
+source: openapi/_original/university-of-twente-energy-api-openapi.json
+x-operator: institution
+schemes: []
+scopes: []
+note: >-
+  No scopes exist to record. The University of Twente Energy API declares no securitySchemes and
+  requires no authorization, so there is no OAuth flow, no scope vocabulary and no consent screen.
+  This file is written deliberately as an evidenced empty set rather than left absent, so the
+  absence reads as a measured fact rather than as an unfinished profile.
+federated_scopes:
+  note: >-
+    The only scope vocabulary the university does emit belongs to its identity provider, not to
+    an API it publishes. The Entra ID tenant behind its SURFconext-federated IdP advertises the
+    standard OpenID Connect set in its discovery document.
+  source: https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/v2.0/.well-known/openid-configuration
+  probed: '2026-09-01'
+  status: 200
+  scopes_supported: [ openid, profile, email, offline_access ]

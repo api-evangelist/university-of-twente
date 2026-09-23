@@ -64,50 +64,87 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The University of Twente (Universiteit Twente, UT) is a public technical research university founded in 1961 in Enschede, Netherlands, ranked #233 in the QS World University Rankings 2025. This repository catalogs the university's publicly confirmable developer and API footprint as an [APIs.json](http://apisjson.org) provider profile. That footprint is modest: a Pure-based research information system documented to offer OAI-PMH harvesting, official GitHub organizations, and participation in the 4TU.ResearchData repository.
+The University of Twente (Universiteit Twente, UT) is a public technical research university founded in 1961 in Enschede, Netherlands. This repository catalogs the university's publicly confirmable developer and API footprint as an [APIs.json](http://apisjson.org) provider profile, produced under the API Evangelist **university pipeline**, which settles *who operates* each surface before saving any contract.
+
+Unusually for this cohort, the footprint is neither empty nor borrowed: the university operates **one API of its own**. Everything else here is a relationship — a federation membership, a registry membership, or a tenancy on a vendor platform — and is labelled as such rather than credited as the university's engineering.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/university-of-twente/refs/heads/main/apis.yml
 - Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=university-of-twente-api-evangelist&utm_content=repo
 
 ## Type
 
-- Type: Index
-- Position: Consumer
-- Access: 3rd-Party
+- Type: Index (`x-type: university`, `x-category: Technical University`)
+- Position: Provider
+- Access: Public
 
 ## Tags
 
-Education, Higher Education, University, Research Data, Netherlands, Open Science
+University, Higher Education, Education, Technical University, Netherlands, Europe, Open Data, Energy, Sustainability, Research Data, Identity Federation, Student Mobility, Open Science
 
-## APIs
+## Surfaces, by operator
 
-- **UT Research Information (Pure) OAI-PMH** — OAI-PMH metadata harvesting endpoint documented for the UT Research Information Pure system (research.utwente.nl). Cataloged on documented evidence only; no live public OAI-PMH endpoint was confirmed at review time. Docs: https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure
+Every entry carries an `x-operator` saying who runs the thing it describes.
 
-## Plans, Rate Limits & FinOps
+### `institution` — the university's own
 
-- Plans / Pricing: [plans/university-of-twente-plans-pricing.yml](plans/university-of-twente-plans-pricing.yml)
-- Rate Limits: [rate-limits/university-of-twente-rate-limits.yml](rate-limits/university-of-twente-rate-limits.yml)
-- FinOps: [finops/university-of-twente-finops.yml](finops/university-of-twente-finops.yml)
+- **University of Twente Energy API** — a public, unauthenticated REST API on the university's own network (`energyapi.utwente.nl`, 130.89.3.170), publishing an **OpenAPI 3.0.1** contract and a Swagger UI. Serves historical electricity, gas, heat, water and solar metering for **103 named campus resources**, at hour/day/week/month/year resolution back to at least 2019, with a CO2-equivalent mode computed against the Dutch national energy mix. It backs the public Energy Data Platform at `energydata.utwente.nl`. Contract: [openapi/university-of-twente-energy-api-openapi.yml](openapi/university-of-twente-energy-api-openapi.yml) · pristine: [openapi/_original/](openapi/_original/university-of-twente-energy-api-openapi.json)
+- **llms.txt programme catalog** — a machine-readable study-programme document at `www.utwente.nl/llms.txt`, addressed at language models. Genuinely institution-served, and genuinely defective: despite being JSON-shaped it is *not valid JSON* (it contains JavaScript block comments), and its bachelor and master arrays are elided rather than populated.
+
+### `federation` — shared by definition, the IdP behind it is theirs
+
+- **SAML 2.0 Identity Provider** — entityID `https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/`, a Microsoft Entra ID tenant registered in **SURFconext**, the Dutch national research and education federation, carrying the Shibboleth metadata extension `shibmd:Scope utwente.nl`. Both its SAML metadata and its OpenID Connect discovery document are public.
+
+### `registry` — a fact about them, not a contract of theirs
+
+- **Crossref membership** — member 2372, *University Library/University of Twente*, DOI prefix **10.3990**, 599 member DOIs. Also registered in ROR as `https://ror.org/006hf6230`. Deliberately **not** recorded as a DataCite member: the university has no DataCite client of its own.
+
+### `tenant` — their data, the vendor's contract
+
+- **UT Research Information (Elsevier Pure)** — `research.utwente.nl` and `ris.utwente.nl` both CNAME to `utwente-pva.elsevierpure.com`.
+- **Canvas LMS (Instructure)** — `canvas.utwente.nl` CNAMEs to `utwente-vanity.instructure.com`; its LTI 1.3 platform JWKS is public.
+- **OSIRIS student information system (CACI)** — `osiris.utwente.nl` redirects to `utwente.osiris-student.nl`. The authoritative course catalog and timetable live here, behind a login.
+- **4TU.ResearchData** — two named UT scopes, groups 28592 (`utwente.nl`) and 28634 (`student.utwente.nl`), in a repository TU Delft operates.
+- **Erasmus Without Paper node** — a live discovery manifest declaring **15 EWP student-mobility APIs**, every endpoint scoped to HEI ID `utwente.nl`, served on a UT hostname from SOP's Mobility-Online platform.
+
+## Artifacts
+
+| | |
+|---|---|
+| OpenAPI (+ pristine original) | [openapi/](openapi/) |
+| JSON Schema (8) | [json-schema/](json-schema/) |
+| Examples (probed live) | [examples/](examples/) |
+| Spectral ruleset | [rules/](rules/) |
+| Vocabulary | [vocabulary/](vocabulary/) |
+| JSON-LD context | [json-ld/](json-ld/) |
+| Authentication | [authentication/](authentication/) |
+| Scopes (evidenced empty set) | [scopes/](scopes/) |
+| Errors | [errors/](errors/) |
+| Conformance (`education` regime) | [conformance/](conformance/) |
+| Lifecycle | [lifecycle/](lifecycle/) |
+| Plans / Rate Limits / FinOps | [plans/](plans/) · [rate-limits/](rate-limits/) · [finops/](finops/) |
+| Per-URL probe log | [review.yml](review.yml) |
+
+## Domain standards (`education` regime)
+
+Probed, not claimed. Full evidence in [conformance/](conformance/university-of-twente-conformance.yml).
+
+- **saml** ✓ · **shibboleth** ✓ · **lti** ✓ · **crossref** ✓ · **orcid** partial
+- **oai-pmh** ✗ · **datacite** ✗ · **scim** ✗ · **oneroster** ✗ · **ed-fi** ✗ · **caliper** ✗ · **qti** ✗
 
 ## Timestamps
 
 - Created: 2026-06-03
-- Modified: 2026-06-03
-
-## Common Properties
-
-- Website: https://www.utwente.nl/en/
-- GitHub: https://github.com/utwente
-- LinkedIn: https://www.linkedin.com/school/university-of-twente/
-- SourceCode: https://github.com/utwente-fmt
-- Plans: plans/university-of-twente-plans-pricing.yml
-- RateLimits: rate-limits/university-of-twente-rate-limits.yml
-- FinOps: finops/university-of-twente-finops.yml
-- Review: review.yml
+- Modified: 2026-09-01
 
 ## Notes
 
-All entries reflect publicly verifiable information only; no endpoints were fabricated. The official website, the Pure portal (research.utwente.nl), the GitHub org, and the 4TU.ResearchData institution page resolved live (HTTP 200). The Pure OAI-PMH endpoint is documented by the UT library but every OAI base-URL variant probed returned an error/500 (not openly accessible), so it is listed without a baseURL. 4TU.ResearchData (data.4tu.nl) is co-founded by UT but hosted and governed by TU Delft, so it is referenced rather than claimed as a UT-operated API. See [review.yml](review.yml) for per-URL probe results.
+All entries reflect publicly verifiable information only; no endpoints were fabricated, and no vendor contract is saved under this slug.
+
+**Two corrections were made on 2026-09-01.** First, this repo previously carried a *UT Research Information (Pure) OAI-PMH* entry as the university's only API. Re-probing found no working endpoint — `/ws/oai?verb=Identify` returns 500, `/ws/oai/?verb=Identify` returns 404 — and the library page formerly cited as documenting it no longer mentions OAI-PMH at all. The Pure *relationship* was kept and re-labelled `x-operator: tenant`; the endpoint claim was retired. Second, and in the other direction, the university's only institution-operated API was missing from the profile entirely; it was found from the university's own open-data page and confirmed by the `energydata.utwente.nl` JavaScript bundle, which names the API host and its path template.
+
+**Two defects were measured in the Energy API contract** and are recorded rather than smoothed over: the spec declares RFC 7807 `ProblemDetails` on 400 but the service returns a bespoke `{error, results}` envelope, and `GET /api/Dashboard` is documented as 200 but returned 400 when probed. The contract also declares no `servers[]` and no `operationId` on any operation, and `info.contact` routes readers to the contracted developer rather than to the university.
+
+See [review.yml](review.yml) for per-URL probe results.
 
 ## Maintainers
 

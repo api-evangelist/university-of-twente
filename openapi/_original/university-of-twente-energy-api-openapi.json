@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "University of Twente Energy API",
+    "description": "API for querying historical energy data from University of Twente buildings.\n\n Developed by Realised, for questions please contact:",
+    "contact": {
+      "name": "Realised",
+      "email": "energydata@realised.nl"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Returns the relevant dashboard data containing year of year savings (in %) and PV output data.",
+        "responses": {
+          "200": {
+            "description": "Returns no error and dashboard data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the database returns an error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "If the database can't be reached."
+          }
+        }
+      }
+    },
+    "/api/Energy": {
+      "get": {
+        "tags": [
+          "Energy"
+        ],
+        "summary": "Returns a list of resources with their available energy types.",
+        "responses": {
+          "200": {
+            "description": "Returns no error and the list of values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resource"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "If the database can't be reached."
+          }
+        }
+      }
+    },
+    "/api/Energy/{resource}/{type}": {
+      "get": {
+        "tags": [
+          "Energy"
+        ],
+        "summary": "Returns the specified energy type from resource with resolution within timeframe 'from' - 'to'.",
+        "description": "Resource and energy type can only contain lower case a-z, contain 0-9 and contain '-' instead of spaces.\r\n\r\nTimezone should be specified in a ISO8601 format, e.g.: yyyy-MM-ddTHH:mm:ssZ, providing an UTC time. \r\nIf a non UTC timestamp is provided, e.g.: yyyy-MM-dd HH:mm, the timestamp is considered to be in 'Europe/Amsterdam'.\r\nThe returned results are always UTC.\r\n\r\nThe resolution must be one of the following: hour, day, week, month, year and will group the results accordingly following the ranges in \"Europe/Amsterdam\" timezone.\r\n\r\nElectricity or solar data can be requested in their CO2 equivalent. To get this information, set the parameter `co2` to `true`.\r\n\r\nSample request:\r\n            \r\n    POST /Energy/universiteit-twente/electricity\r\n    {\r\n       \"resolution\": \"day\",\r\n       \"from\": \"2019-01-01 00:00\",\r\n       \"to\": \"2020-01-01 00:00\"\r\n    }",
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "description": "Example: universiteit-twente",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "Example: electricity",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resolution",
+            "in": "query",
+            "description": "Example: day",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Example: 2019-01-01 00:00",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Example: 2020-01-01 00:00",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "corrected",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "co2",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns no error and the list of values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Energy"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If there was input in an incorrect format.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "If the database can't be reached."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Building": {
+        "required": [
+          "energyTypes",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "energyTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dashboard": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "savings": {
+            "$ref": "#/components/schemas/Saving"
+          },
+          "solar": {
+            "$ref": "#/components/schemas/Measure"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataPoint": {
+        "required": [
+          "corrected",
+          "timestamp",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "corrected": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Energy": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "results": {
+            "$ref": "#/components/schemas/Result"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Measure": {
+        "type": "object",
+        "properties": {
+          "dayGeneration": {
+            "type": "number",
+            "format": "double"
+          },
+          "weekGeneration": {
+            "type": "number",
+            "format": "double"
+          },
+          "yearGeneration": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Resource": {
+        "required": [
+          "results"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Building"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Result": {
+        "required": [
+          "data",
+          "unit"
+        ],
+        "type": "object",
+        "properties": {
+          "unit": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataPoint"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Saving": {
+        "type": "object",
+        "properties": {
+          "electricity": {
+            "type": "number",
+            "format": "double"
+          },
+          "gas": {
+            "type": "number",
+            "format": "double"
+          },
+          "water": {
+            "type": "number",
+            "format": "double"
+          },
+          "heat": {
+            "type": "number",
+            "format": "double"
+          },
+          "cold": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

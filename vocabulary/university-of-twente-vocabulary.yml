@@ -1,0 +1,61 @@
+name: University of Twente Domain Vocabulary
+provider: University of Twente
+providerId: university-of-twente
+generated: '2026-09-01'
+method: derived
+source: openapi/university-of-twente-energy-api-openapi.yml
+x-operator: institution
+description: >-
+  Vocabulary derived from the University of Twente Energy API — its tags, path parameters, schema
+  properties and the enumerated values observed in live responses. This is the only
+  institution-operated API contract the university publishes, so this is the whole of its own
+  API vocabulary; terms from tenant platforms (Pure, Canvas, OSIRIS, EWP) are deliberately not
+  folded in, because that vocabulary belongs to those vendors.
+terms:
+- term: Dashboard
+  description: >-
+    Aggregate campus figures — year-over-year savings percentages per energy type and
+    photovoltaic generation over rolling day, week and year windows.
+- term: Energy
+  description: >-
+    Historical metered consumption and generation, addressed by campus resource and energy type
+    and bucketed at a requested resolution.
+- term: Resource
+  description: >-
+    An addressable metering subject. Either an individual campus building or a campus-wide
+    aggregate. Slugs are lower-case a-z, 0-9 and hyphens; 103 were returned on 2026-09-01,
+    including bastille, boortoren, amperapark and the campus roll-up universiteit-twente.
+- term: Energy type
+  description: >-
+    The commodity metered for a resource. Observed values: electricity, gas, heat, water, solar.
+    Not every type exists for every resource — the resource list declares which are available.
+- term: Resolution
+  description: >-
+    The bucket width a series is grouped into. Accepted values: hour, day, week, month, year.
+    Grouping follows calendar boundaries in the Europe/Amsterdam timezone.
+- term: Corrected
+  description: >-
+    A per-datapoint flag stating that the platform's erroneous-metering correction was applied.
+    Also a request parameter (default true) that turns the correction off.
+- term: CO2 equivalent
+  description: >-
+    An alternate unit mode for electricity and solar. With co2=true the series is returned in
+    kg CO₂e rather than kWh, computed against the Dutch national energy-mix emission factor
+    sourced from the Nationaal Energie Dashboard, so the factor varies through the day.
+- term: Unit
+  description: >-
+    The unit every value in a series carries — kWh for electricity and solar, and 'kg CO₂e' in
+    CO2 mode. Returned once on the result rather than per datapoint.
+- term: Data point
+  description: >-
+    One timestamped value. Timestamps are always UTC on the way out even though buckets are cut
+    against Europe/Amsterdam, which is why a monthly series starts at 23:00:00Z on the last day
+    of the preceding month.
+- term: Savings
+  description: >-
+    Year-over-year percentage change per commodity, declared for electricity, gas, water, heat
+    and cold.
+- term: Generation
+  description: >-
+    Photovoltaic output totalled over the trailing day, week and year, reported through the
+    dashboard's solar measure.

@@ -1,0 +1,94 @@
+{
+  "operationId": "getEnergySeries",
+  "method": "GET",
+  "path": "/api/Energy/{resource}/{type}",
+  "summary": "University of Twente historical energy series for a campus resource",
+  "generated": "2026-09-01",
+  "method_provenance": "probed",
+  "source": "https://energyapi.utwente.nl",
+  "x-operator": "institution",
+  "requestExamples": [
+    {
+      "name": "campus-electricity-monthly",
+      "url": "https://energyapi.utwente.nl/api/Energy/universiteit-twente/electricity?resolution=month&from=2025-01-01%2000:00&to=2025-04-01%2000:00",
+      "headers": {},
+      "body": null
+    },
+    {
+      "name": "campus-electricity-co2-yearly",
+      "url": "https://energyapi.utwente.nl/api/Energy/universiteit-twente/electricity?resolution=year&from=2024-01-01%2000:00&to=2025-01-01%2000:00&co2=true",
+      "headers": {},
+      "body": null
+    },
+    {
+      "name": "malformed-timestamp",
+      "url": "https://energyapi.utwente.nl/api/Energy/universiteit-twente/electricity?resolution=bogus&from=x&to=y",
+      "headers": {},
+      "body": null
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "campus-electricity-monthly",
+      "probedAt": "2026-09-01",
+      "example": {
+        "error": null,
+        "results": {
+          "unit": "kWh",
+          "data": [
+            {
+              "timestamp": "2024-12-31T23:00:00Z",
+              "value": 1849501.3499999999,
+              "corrected": true
+            },
+            {
+              "timestamp": "2025-01-31T23:00:00Z",
+              "value": 1706251.3500000017,
+              "corrected": true
+            },
+            {
+              "timestamp": "2025-02-28T23:00:00Z",
+              "value": 1795845.5200000019,
+              "corrected": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "campus-electricity-co2-yearly",
+      "probedAt": "2026-09-01",
+      "example": {
+        "error": null,
+        "results": {
+          "unit": "kg CO\u2082e",
+          "data": [
+            {
+              "timestamp": "2023-12-31T23:00:00Z",
+              "value": 4238142.660493115,
+              "corrected": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "400",
+      "contentType": "application/json",
+      "name": "malformed-timestamp",
+      "probedAt": "2026-09-01",
+      "note": "The spec documents 400 as components/schemas/ProblemDetails (RFC 7807). The service actually returns the same {error, results} envelope as a success. Recorded as observed, not as documented.",
+      "example": {
+        "error": "Timestamp not provided in ISO8601 format: yyyy-MM-ddTHH:mm:ssZ",
+        "results": {
+          "unit": null,
+          "data": []
+        }
+      }
+    }
+  ]
+}

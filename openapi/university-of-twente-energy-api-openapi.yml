@@ -1,0 +1,220 @@
+openapi: 3.2.0
+info:
+  title: University of Twente Energy API
+  description: 'API for querying historical energy data from University of Twente buildings.
+
+
+    Developed by Realised, for questions please contact:'
+  contact:
+    name: Realised
+    email: energydata@realised.nl
+  version: v1
+tags:
+- name: Energy
+paths:
+  /api/Energy:
+    get:
+      tags:
+      - Energy
+      summary: Returns a list of resources with their available energy types
+      responses:
+        '200':
+          description: Returns no error and the list of values.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+        '503':
+          description: If the database can't be reached.
+      operationId: getApiEnergy
+      x-operation-id-source: derived
+  /api/Energy/{resource}/{type}:
+    get:
+      tags:
+      - Energy
+      summary: Returns the specified energy type from resource with resolution within…
+      description: 'Resource and energy type can only contain lower case a-z, contain 0-9 and contain ''-'' instead of spaces.
+
+
+        Timezone should be specified in a ISO8601 format, e.g.: yyyy-MM-ddTHH:mm:ssZ, providing an UTC time.
+
+        If a non UTC timestamp is provided, e.g.: yyyy-MM-dd HH:mm, the timestamp is considered to be in ''Europe/Amsterdam''.
+
+        The returned results are always UTC.
+
+
+        The resolution must be one of the following: hour, day, week, month, year and will group the results accordingly following the ranges in "Europe/Amsterdam" timezone.
+
+
+        Electricity or solar data can be requested in their CO2 equivalent. To get this information, set the parameter `co2` to `true`.
+
+
+        Sample request:
+
+
+        POST /Energy/universiteit-twente/electricity
+
+        {
+
+        "resolution": "day",
+
+        "from": "2019-01-01 00:00",
+
+        "to": "2020-01-01 00:00"
+
+        }'
+      parameters:
+      - name: resource
+        in: path
+        description: 'Example: universiteit-twente'
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: 'Example: electricity'
+        required: true
+        schema:
+          type: string
+      - name: resolution
+        in: query
+        description: 'Example: day'
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: 'Example: 2019-01-01 00:00'
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: 'Example: 2020-01-01 00:00'
+        required: true
+        schema:
+          type: string
+      - name: corrected
+        in: query
+        description: ''
+        schema:
+          type: boolean
+          default: true
+      - name: co2
+        in: query
+        description: ''
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Returns no error and the list of values.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Energy'
+        '400':
+          description: If there was input in an incorrect format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '503':
+          description: If the database can't be reached.
+      operationId: getApiEnergyByResourceByType
+      x-operation-id-source: derived
+components:
+  schemas:
+    DataPoint:
+      required:
+      - corrected
+      - timestamp
+      - value
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+          format: double
+        corrected:
+          type: boolean
+      additionalProperties: false
+    Energy:
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
+          $ref: '#/components/schemas/Result'
+      additionalProperties: false
+    Resource:
+      required:
+      - results
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Building'
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    Result:
+      required:
+      - data
+      - unit
+      type: object
+      properties:
+        unit:
+          minLength: 1
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataPoint'
+      additionalProperties: false
+    Building:
+      required:
+      - energyTypes
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        energyTypes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false

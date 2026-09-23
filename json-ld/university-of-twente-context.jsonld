@@ -21,18 +21,35 @@
     "baseURL": {
       "@id": "schema:url",
       "@type": "@id"
-    }
+    },
+    "energy": "https://energyapi.utwente.nl/api/",
+    "Building": "ut:Building",
+    "DataPoint": "ut:DataPoint",
+    "Result": "ut:Result",
+    "energyTypes": {
+      "@id": "ut:energyTypes",
+      "@container": "@set"
+    },
+    "timestamp": "schema:observationDate",
+    "value": "schema:value",
+    "unit": "schema:unitText",
+    "corrected": "ut:corrected",
+    "identifier": "schema:identifier",
+    "operator": "ut:operator"
   },
   "@type": "CollegeOrUniversity",
   "name": "University of Twente",
   "url": "https://www.utwente.nl/en/",
   "foundingDate": "1961",
-  "description": "Public technical research university in Enschede, Netherlands, operating the Pure-based UT Research Information system at research.utwente.nl.",
+  "description": "Public technical research university in Enschede, Netherlands. Operates the institution-owned Energy API (energyapi.utwente.nl) behind the public Energy Data Platform, and is the tenant of an Elsevier Pure research information system, an Instructure Canvas LMS, a CACI OSIRIS student system and an Erasmus Without Paper mobility node.",
   "location": {
     "@type": "Place",
     "name": "Enschede, Netherlands"
   },
   "sameAs": [
+    "https://ror.org/006hf6230",
+    "https://www.wikidata.org/wiki/Q1547084",
+    "https://api.crossref.org/members/2372",
     "https://github.com/utwente",
     "https://github.com/utwente-fmt",
     "https://www.linkedin.com/school/university-of-twente/"
@@ -40,9 +57,36 @@
   "api": [
     {
       "@type": "WebAPI",
-      "name": "UT Research Information (Pure) OAI-PMH",
-      "url": "https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure",
-      "description": "OAI-PMH metadata harvesting endpoint documented for UT Research Information; no live public endpoint confirmed at time of review."
+      "name": "University of Twente Energy API",
+      "url": "https://energyapi.utwente.nl",
+      "operator": "institution",
+      "documentation": "https://energyapi.utwente.nl/swagger/v1/swagger.json",
+      "description": "Public, unauthenticated REST API serving historical metered electricity, gas, heat, water and solar data for 103 University of Twente campus resources, with a CO2-equivalent mode."
+    },
+    {
+      "@type": "WebAPI",
+      "name": "University of Twente Erasmus Without Paper node",
+      "url": "https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all",
+      "operator": "tenant",
+      "description": "EWP discovery manifest declaring 15 Erasmus Without Paper APIs scoped to HEI ID utwente.nl, served on a University of Twente hostname from the SOP Mobility-Online platform."
+    },
+    {
+      "@type": "WebAPI",
+      "name": "University of Twente SAML 2.0 identity provider",
+      "url": "https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/",
+      "operator": "federation",
+      "description": "University of Twente's own SAML 2.0 IdP, registered in the SURFconext national federation with Shibboleth scope utwente.nl."
+    },
+    {
+      "@type": "WebAPI",
+      "name": "UT Research Information (Pure)",
+      "url": "https://research.utwente.nl/",
+      "operator": "tenant",
+      "description": "Elsevier Pure research information system on a University of Twente hostname (CNAME utwente-pva.elsevierpure.com). No public OAI-PMH response was obtained on 2026-09-01."
     }
-  ]
+  ],
+  "identifier": "https://ror.org/006hf6230",
+  "x-generated": "2026-09-01",
+  "x-method": "derived",
+  "x-source": "apis.yml + openapi/_original/university-of-twente-energy-api-openapi.json"
 }

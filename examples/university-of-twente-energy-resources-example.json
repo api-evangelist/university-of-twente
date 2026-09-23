@@ -1,0 +1,75 @@
+{
+  "operationId": "getEnergyResources",
+  "method": "GET",
+  "path": "/api/Energy",
+  "summary": "University of Twente list campus resources and their metered energy types",
+  "generated": "2026-09-01",
+  "method_provenance": "probed",
+  "source": "https://energyapi.utwente.nl",
+  "x-operator": "institution",
+  "requestExamples": [
+    {
+      "name": "list-resources",
+      "url": "https://energyapi.utwente.nl/api/Energy",
+      "headers": {},
+      "body": null
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "default",
+      "probedAt": "2026-09-01",
+      "example": {
+        "error": null,
+        "results": [
+          {
+            "name": "amperapark",
+            "energyTypes": [
+              "solar"
+            ]
+          },
+          {
+            "name": "bastille",
+            "energyTypes": [
+              "electricity",
+              "heat",
+              "water"
+            ]
+          },
+          {
+            "name": "blokhutten",
+            "energyTypes": [
+              "electricity",
+              "solar"
+            ]
+          },
+          {
+            "name": "boerderij-bosch",
+            "energyTypes": [
+              "electricity",
+              "water"
+            ]
+          },
+          {
+            "name": "boerderij-contact-centre",
+            "energyTypes": [
+              "electricity",
+              "water"
+            ]
+          },
+          {
+            "name": "boortoren",
+            "energyTypes": [
+              "electricity",
+              "gas",
+              "water"
+            ]
+          }
+        ],
+        "_note": "Truncated for the example file. The live call returned 103 campus resources on 2026-09-01."
+      }
+    }
+  ]
+}

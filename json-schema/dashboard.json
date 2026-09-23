@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/dashboard.json",
+  "title": "Dashboard",
+  "description": "Aggregate campus figures \u2014 year-over-year savings and photovoltaic generation.",
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "savings": {
+      "$ref": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/saving.json"
+    },
+    "solar": {
+      "$ref": "https://github.com/api-evangelist/university-of-twente/blob/main/json-schema/measure.json"
+    }
+  },
+  "additionalProperties": false,
+  "x-generated": "2026-09-01",
+  "x-method": "derived",
+  "x-source": "openapi/_original/university-of-twente-energy-api-openapi.json",
+  "x-operator": "institution"
+}

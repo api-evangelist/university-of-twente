@@ -1,0 +1,24 @@
+{
+  "provider": "university-of-twente",
+  "sources": [
+    "_original/university-of-twente-energy-api-openapi.json"
+  ],
+  "outputs": [
+    "university-of-twente-dashboard-api-openapi.yml",
+    "university-of-twente-energy-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "university-of-twente-energy-api-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "university-of-twente-energy-api-openapi.json: declared missing tag: Dashboard",
+    "university-of-twente-energy-api-openapi.json: declared missing tag: Energy",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "university-of-twente-dashboard-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "university-of-twente-energy-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

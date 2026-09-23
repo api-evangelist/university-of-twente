@@ -1,0 +1,146 @@
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes of University of Twente and federated hosts on 2026-09-01, plus
+  openapi/_original/university-of-twente-energy-api-openapi.json.
+regime: education
+note: >-
+  Conformance against the Kin Score `education` regime standards[], probed rather than claimed.
+  Every `conforms: true` below points at a specific fetched location and status code. Standards
+  with no evidence are recorded as false with the probe that failed, so the absences are
+  measurable rather than merely missing. Two conformance hits (lti, saml/shibboleth) sit on
+  surfaces the university operates as a TENANT or through a FEDERATION rather than as its own
+  contract — that is recorded honestly in `operator` on each row, because the deployment is the
+  university's even where the software is not.
+standards:
+- id: saml
+  conforms: true
+  operator: federation
+  evidence: >-
+    The University of Twente operates its own SAML 2.0 identity provider, entityID
+    https://sts.windows.net/723246a1-c3f5-43c5-acdc-43adb404ac4d/, on Microsoft Entra ID
+    (tenant_region_scope EU). Its EntityDescriptor is present in the SURFconext national
+    federation aggregate https://metadata.surfconext.nl/idps-metadata.xml (200, 1,032,474 bytes)
+    carrying md:IDPSSODescriptor with protocolSupportEnumeration
+    urn:oasis:names:tc:SAML:2.0:protocol, mdui:DisplayName "University of Twente" /
+    "Universiteit Twente" and md:OrganizationURL http://www.utwente.nl/. The tenant's own SAML
+    metadata at
+    https://login.microsoftonline.com/723246a1-c3f5-43c5-acdc-43adb404ac4d/federationmetadata/2007-06/federationmetadata.xml
+    returns 200 (28,441 bytes) with the same entityID.
+- id: shibboleth
+  conforms: true
+  operator: federation
+  evidence: >-
+    The same SURFconext EntityDescriptor carries the Shibboleth metadata extension
+    <shibmd:Scope xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" regexp="false">utwente.nl</shibmd:Scope>,
+    which is the federation asserting that this IdP is authoritative for the utwente.nl scope.
+    SURFconext is the Dutch national research and education federation and an eduGAIN participant.
+- id: lti
+  conforms: true
+  operator: tenant
+  evidence: >-
+    https://canvas.utwente.nl/api/lti/security/jwks returns 200 with three RS256 signing keys —
+    the LTI 1.3 / IMS Global Learning Tools Interoperability platform JWKS for the university's
+    Canvas tenant. canvas.utwente.nl is a CNAME to utwente-vanity.instructure.com, so the LMS is
+    Instructure's software and the tenancy is the university's. The endpoint is unauthenticated
+    and machine-readable; the surrounding REST API (/api/v1/*) returns 401 without a token.
+- id: crossref
+  conforms: true
+  operator: registry
+  evidence: >-
+    https://api.crossref.org/members/2372 returns 200 for "University Library/University of
+    Twente", located "AE Enschede, Netherlands", holding DOI prefix 10.3990 with 599 member DOIs
+    (23 current, 576 backfile). https://api.crossref.org/prefixes/10.3990/works reports 5,393
+    works under the prefix. This is the university library registering DOIs in its own name — an
+    institution-operated identifier surface, not a vendor's.
+- id: orcid
+  conforms: partial
+  operator: registry
+  evidence: >-
+    https://pub.orcid.org/v3.0/expanded-search/?q=affiliation-org-name:"University of Twente"
+    returns 5,842 ORCID records asserting a University of Twente affiliation (200, 2026-09-01).
+    That is participation by its researchers, evidenced. It is marked partial rather than true
+    because no University of Twente contract, endpoint or metadata document was found that
+    consumes or emits ORCID iDs — the university's Pure person pages, where ORCID normally
+    surfaces, returned 403 to every probe.
+- id: oai-pmh
+  conforms: false
+  operator: tenant
+  evidence: >-
+    Recorded as a measured negative, and it corrects a standing claim in this repo. Every
+    OAI-PMH base-URL variant on the university's Pure host was probed on 2026-09-01 and none
+    returned a valid OAI response: https://research.utwente.nl/ws/oai?verb=Identify -> 500
+    (redirects to /error/ with body {"timestamp":...,"status":999,"error":"None"}),
+    /ws/oai/?verb=Identify -> 404, /oai?verb=Identify -> 500,
+    /ws/oai/publications?verb=Identify -> 500. The library page previously cited as documenting
+    the endpoint
+    (https://www.utwente.nl/en/service-portal/university-library/publication-archiving/ut-research-information-pure,
+    200, last edited 4 March 2026) no longer mentions OAI-PMH at all. The 4TU repository the
+    university co-founded also has no OAI endpoint: https://data.4tu.nl/oai?verb=Identify -> 404.
+- id: datacite
+  conforms: false
+  operator: registry
+  evidence: >-
+    The University of Twente is not a DataCite client or provider in its own name:
+    https://api.datacite.org/clients?query=twente and
+    https://api.datacite.org/providers?query=twente both return total 0. Research-data DOIs for
+    the university are minted under prefix 10.4121 by 4TU.ResearchData, which TU Delft operates.
+    2,476 DataCite DOIs carry the university's ROR https://ror.org/006hf6230 as a creator
+    affiliation — a fact about its researchers, not a membership of its own. Recorded false
+    deliberately: crediting a DataCite membership here would be exactly the misattribution this
+    pipeline exists to prevent.
+- id: scim
+  conforms: false
+  evidence: >-
+    No SCIM endpoint or user-provisioning contract was found on any utwente.nl host. The Entra ID
+    tenant supports SCIM as a Microsoft platform capability, but that is Microsoft's surface and
+    no university-scoped SCIM endpoint is published.
+- id: oneroster
+  conforms: false
+  evidence: No IMS Global OneRoster endpoint or claim found. OneRoster is a K-12 standard and is not expected here.
+- id: ed-fi
+  conforms: false
+  evidence: No Ed-Fi ODS/API found. Ed-Fi is a US K-12 standard and is not expected at a Dutch university.
+- id: caliper
+  conforms: false
+  evidence: >-
+    No IMS Caliper Analytics event store or endpoint was found. Canvas can emit Caliper, but no
+    university-scoped Caliper endpoint is published on canvas.utwente.nl.
+- id: qti
+  conforms: false
+  evidence: No QTI assessment interchange endpoint or published QTI item bank was found.
+additional_standards_observed:
+- id: openapi-3.0
+  conforms: true
+  operator: institution
+  evidence: >-
+    openapi 3.0.1, 3 paths / 3 operations, 9 component schemas, served at
+    https://energyapi.utwente.nl/swagger/v1/swagger.json (200, 9,647 bytes) with a Swagger UI at
+    the host root. This is the university's own contract for its own service on its own network.
+- id: ewp
+  conforms: true
+  operator: tenant
+  evidence: >-
+    The university publishes a live Erasmus Without Paper discovery manifest (EWP Discovery API
+    v6.0.0) at https://mobility-online.utwente.nl/mobility/ewp/manifest?api=all (200,
+    application/xml, 11,896 bytes) declaring 15 EWP APIs — institutions 2.2.0,
+    organizational-units 2.1.1, iias 7.0.0, iia-cnr 3.0.0, iias-approval 2.0.0,
+    iia-approval-cnr 2.0.0, omobilities 3.0.0, omobility-stats 1.0.0, omobility-cnr 2.0.0,
+    omobility-las 1.2.0, omobility-la-cnr 1.1.0, imobilities 2.0.0, imobility-cnr 2.0.0 and
+    factsheet 1.2.0 — every endpoint URL scoped to the HEI ID utwente.nl. EWP is the European
+    Commission-backed student-mobility API network. Not in the education regime standards[] list;
+    recorded here because it is the university's largest declared API surface by operation count.
+- id: rfc9116-security-txt
+  conforms: true
+  operator: institution
+  evidence: >-
+    https://www.utwente.nl/.well-known/security.txt returns 200 with Contact
+    mailto:cert@utwente.nl and mailto:responsible-disclosure@utwente.nl, Expires
+    2026-12-31T23:00:00.000Z, and Acknowledgments pointing at a published hall of fame.
+- id: rfc7807-problem-details
+  conforms: false
+  operator: institution
+  evidence: >-
+    Declared in the Energy API contract (components/schemas/ProblemDetails on both 400 responses)
+    but not deployed — the live 400 returns the bespoke {error, results} envelope instead. See
+    errors/university-of-twente-problem-types.yml.
