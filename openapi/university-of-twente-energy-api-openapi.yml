@@ -151,6 +151,20 @@ components:
         results:
           $ref: '#/components/schemas/Result'
       additionalProperties: false
+    Result:
+      required:
+      - data
+      - unit
+      type: object
+      properties:
+        unit:
+          minLength: 1
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataPoint'
+      additionalProperties: false
     Resource:
       required:
       - results
@@ -164,6 +178,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Building'
+      additionalProperties: false
+    Building:
+      required:
+      - energyTypes
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        energyTypes:
+          type: array
+          items:
+            type: string
       additionalProperties: false
     ProblemDetails:
       type: object
@@ -190,31 +218,3 @@ components:
           - string
           - 'null'
       additionalProperties: {}
-    Result:
-      required:
-      - data
-      - unit
-      type: object
-      properties:
-        unit:
-          minLength: 1
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataPoint'
-      additionalProperties: false
-    Building:
-      required:
-      - energyTypes
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        energyTypes:
-          type: array
-          items:
-            type: string
-      additionalProperties: false

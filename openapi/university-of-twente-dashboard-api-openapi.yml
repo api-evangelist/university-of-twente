@@ -36,6 +36,25 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Saving:
+      type: object
+      properties:
+        electricity:
+          type: number
+          format: double
+        gas:
+          type: number
+          format: double
+        water:
+          type: number
+          format: double
+        heat:
+          type: number
+          format: double
+        cold:
+          type: number
+          format: double
+      additionalProperties: false
     ProblemDetails:
       type: object
       properties:
@@ -85,23 +104,4 @@ components:
           $ref: '#/components/schemas/Saving'
         solar:
           $ref: '#/components/schemas/Measure'
-      additionalProperties: false
-    Saving:
-      type: object
-      properties:
-        electricity:
-          type: number
-          format: double
-        gas:
-          type: number
-          format: double
-        water:
-          type: number
-          format: double
-        heat:
-          type: number
-          format: double
-        cold:
-          type: number
-          format: double
       additionalProperties: false
