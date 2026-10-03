@@ -125,60 +125,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DataPoint:
-      required:
-      - corrected
-      - timestamp
-      - value
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        value:
-          type: number
-          format: double
-        corrected:
-          type: boolean
-      additionalProperties: false
-    Energy:
-      type: object
-      properties:
-        error:
-          type:
-          - string
-          - 'null'
-        results:
-          $ref: '#/components/schemas/Result'
-      additionalProperties: false
-    Result:
-      required:
-      - data
-      - unit
-      type: object
-      properties:
-        unit:
-          minLength: 1
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataPoint'
-      additionalProperties: false
-    Resource:
-      required:
-      - results
-      type: object
-      properties:
-        error:
-          type:
-          - string
-          - 'null'
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Building'
-      additionalProperties: false
     Building:
       required:
       - energyTypes
@@ -218,3 +164,57 @@ components:
           - string
           - 'null'
       additionalProperties: {}
+    DataPoint:
+      required:
+      - corrected
+      - timestamp
+      - value
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+          format: double
+        corrected:
+          type: boolean
+      additionalProperties: false
+    Result:
+      required:
+      - data
+      - unit
+      type: object
+      properties:
+        unit:
+          minLength: 1
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataPoint'
+      additionalProperties: false
+    Resource:
+      required:
+      - results
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Building'
+      additionalProperties: false
+    Energy:
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
+          $ref: '#/components/schemas/Result'
+      additionalProperties: false
