@@ -125,45 +125,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Building:
+    Resource:
       required:
-      - energyTypes
-      - name
+      - results
       type: object
       properties:
-        name:
-          minLength: 1
-          type: string
-        energyTypes:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Building'
       additionalProperties: false
-    ProblemDetails:
-      type: object
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-        title:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-      additionalProperties: {}
     DataPoint:
       required:
       - corrected
@@ -194,19 +169,44 @@ components:
           items:
             $ref: '#/components/schemas/DataPoint'
       additionalProperties: false
-    Resource:
-      required:
-      - results
+    ProblemDetails:
       type: object
       properties:
-        error:
+        type:
           type:
           - string
           - 'null'
-        results:
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    Building:
+      required:
+      - energyTypes
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        energyTypes:
           type: array
           items:
-            $ref: '#/components/schemas/Building'
+            type: string
       additionalProperties: false
     Energy:
       type: object

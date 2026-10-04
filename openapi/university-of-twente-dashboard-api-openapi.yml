@@ -61,19 +61,6 @@ components:
           - string
           - 'null'
       additionalProperties: {}
-    Measure:
-      type: object
-      properties:
-        dayGeneration:
-          type: number
-          format: double
-        weekGeneration:
-          type: number
-          format: double
-        yearGeneration:
-          type: number
-          format: double
-      additionalProperties: false
     Saving:
       type: object
       properties:
@@ -90,6 +77,19 @@ components:
           type: number
           format: double
         cold:
+          type: number
+          format: double
+      additionalProperties: false
+    Measure:
+      type: object
+      properties:
+        dayGeneration:
+          type: number
+          format: double
+        weekGeneration:
+          type: number
+          format: double
+        yearGeneration:
           type: number
           format: double
       additionalProperties: false
