@@ -1,41 +1,39 @@
-# Kin Score artifact — university-of-twente — 2026-09-01T210448
+# Kin Score artifact — university-of-twente — 2026-09-24T090406
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: university-of-twente
-  schema_version: 0.18.0
-  scored_at: '2026-09-01'
-  run_ts: 2026-09-01T210448
-  composite: 27.1
-  band: thin
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T090406
+  composite: 58.2
+  band: strong
   facets:
     discoverability: 59.3
-    contract_quality: 20.5
-    governance: 18.2
-    operational_transparency: 26.3
-    developer_ergonomics: 9.5
-    commercial_clarity: 28.9
-    contract_governance: 18.2
-    access_clarity: 28.9
+    contract_quality: 55.6
+    contract_governance: 61.4
+    operational_transparency: 34.2
+    developer_ergonomics: 35.7
+    access_clarity: 50.0
   agent_readiness:
-    score: 2.5
-    band: human-only
+    score: 22.3
+    band: agent-aware
     dimensions:
-      spec_presence: false
+      spec_presence: true
       agentic_access: false
-      reversibility_documented: false
+      reversibility_documented: na
       mcp_server: false
-      auth_clarity: false
-      idempotency: false
+      auth_clarity: bearer
+      idempotency: na
       error_semantics: false
-      openapi_examples: false
+      openapi_examples: documented
       rate_limit_signal: documented
       event_surface_described: false
       agent_skills: false
       well_known_catalog: false
       consent_identity: false
       agent_card: false
-      dry_run_mode: false
+      dry_run_mode: na
       delegated_identity: false
       protected_resource_metadata: false
       dynamic_client_registration: false
@@ -44,12 +42,12 @@ kin_score:
     applies: true
     regime: Education & Research
     regime_id: education
-    score: 46.3
+    score: 90.7
     matched_via: tags
   provenance:
     conformance: first-party
     contracts:
-      total: 1
+      total: 2
       derived: 0
-      coverage: 100.0
-      callable: 100.0
+      coverage: 0.0
+      callable: 0.0
