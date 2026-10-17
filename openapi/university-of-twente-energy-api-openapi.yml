@@ -125,6 +125,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Building:
+      required:
+      - energyTypes
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        energyTypes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
     Resource:
       required:
       - results
@@ -138,6 +152,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Building'
+      additionalProperties: false
+    Energy:
+      type: object
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        results:
+          $ref: '#/components/schemas/Result'
       additionalProperties: false
     DataPoint:
       required:
@@ -154,20 +178,6 @@ components:
           format: double
         corrected:
           type: boolean
-      additionalProperties: false
-    Result:
-      required:
-      - data
-      - unit
-      type: object
-      properties:
-        unit:
-          minLength: 1
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataPoint'
       additionalProperties: false
     ProblemDetails:
       type: object
@@ -194,27 +204,17 @@ components:
           - string
           - 'null'
       additionalProperties: {}
-    Building:
+    Result:
       required:
-      - energyTypes
-      - name
+      - data
+      - unit
       type: object
       properties:
-        name:
+        unit:
           minLength: 1
           type: string
-        energyTypes:
+        data:
           type: array
           items:
-            type: string
-      additionalProperties: false
-    Energy:
-      type: object
-      properties:
-        error:
-          type:
-          - string
-          - 'null'
-        results:
-          $ref: '#/components/schemas/Result'
+            $ref: '#/components/schemas/DataPoint'
       additionalProperties: false
